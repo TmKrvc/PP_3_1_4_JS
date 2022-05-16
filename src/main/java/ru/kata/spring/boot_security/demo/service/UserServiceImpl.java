@@ -13,12 +13,15 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final UserDao userDao;
+    private final RoleService roleService;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserDao userDao, RoleService roleService, BCryptPasswordEncoder passwordEncoder) {
+        this.userDao = userDao;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public List<User> getUsers() {

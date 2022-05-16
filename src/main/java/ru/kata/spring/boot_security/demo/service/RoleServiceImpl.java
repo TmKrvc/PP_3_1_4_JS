@@ -8,8 +8,11 @@ import ru.kata.spring.boot_security.demo.dao.RoleDao;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    @Autowired
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
+
+    public RoleServiceImpl(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
 
     @Override
