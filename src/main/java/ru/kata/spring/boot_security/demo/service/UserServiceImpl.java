@@ -1,11 +1,11 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,12 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void update(User user, int id, String[] roles, String pass) {
-        user.setId(id);
+    public void update(User user) {
+        String pass = user.getPassword();
         user.setPassword(passwordEncoder.encode(pass));
-        user.setRoles(Arrays.stream(roles)
-                .map(role -> roleService.findRoles(role)) //
-                .collect(Collectors.toList()));
         userDao.update(user);
     }
 
@@ -50,19 +47,29 @@ public class UserServiceImpl implements UserService {
     public void delete(int id) {
         userDao.delete(id);
     }
+
+
     @Transactional
     @Override
-    public void save(User user, String[] roles, String pass) {
+    public void save(User user) {
+        String pass = user.getPassword();
         user.setPassword(passwordEncoder.encode(pass));
-        user.setRoles(Arrays.stream(roles)
-                .map(role -> roleService.findRoles(role))//
-                .collect(Collectors.toList()));
         userDao.save(user);
     }
+
 
     @Override
     public User findUser(int id) {
         return userDao.findUser(id);
     }
 
+    @Transactional
+    @Override
+    public void addUser(User user, String[] roles, String pass) {
+        user.setPassword(passwordEncoder.encode(pass));
+        user.setRoles(Arrays.stream(roles)
+                .map(role -> roleService.findRoles(role))
+                .collect(Collectors.toList()));
+        userDao.save(user);
+    }
 }

@@ -15,21 +15,21 @@ public class DBInit {
     private final UserService userService;
     private final RoleService roleService;
 
+    @Autowired
     public DBInit(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
-
 
     @PostConstruct
     private void postConstruct() {
         roleService.save(new Role("ROLE_ADMIN"));
         roleService.save(new Role("ROLE_USER"));
         String[] role1 = {"ROLE_ADMIN", "ROLE_USER"};
-        userService.save(new User("Spider", "Man", "admin"),
+        userService.addUser(new User("Spider", "Man", "admin"),
                 role1, "admin");
         String[] role2 = {"ROLE_USER"};
-        userService.save(new User("Jonny", "Cage", "user"),
+        userService.addUser(new User("Jonny", "Cage", "user"),
                 role2, "user");
     }
 }

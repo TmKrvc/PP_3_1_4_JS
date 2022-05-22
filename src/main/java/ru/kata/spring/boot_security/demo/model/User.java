@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {

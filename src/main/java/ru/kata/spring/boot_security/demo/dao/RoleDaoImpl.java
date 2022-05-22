@@ -13,7 +13,6 @@ public class RoleDaoImpl implements RoleDao {
     private EntityManager entityManager;
 
     @Override
-
     public Role findRoles(String role) {
         Query query = entityManager.createQuery("SELECT r FROM Role r WHERE r.role = : role");
         query.setParameter("role", role);
